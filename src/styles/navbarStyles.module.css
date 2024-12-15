@@ -1,0 +1,81 @@
+/* Navbar container */
+.navbarContainer {
+  background-color: burlywood;
+  font-family: "Georgia", serif;
+  font-style: italic;
+  min-width: 100vw;
+}
+
+/* Main navbar styles */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 30px;
+  background-color: slategray;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: padding 0.3s ease;
+}
+
+/* Logo/Home link */
+.navbarLogo {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: white;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.navbarLogo:hover {
+  color: #d1d1d1; /* Light gray on hover */
+}
+
+/* Links container */
+.navbarLinks {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+/* Individual links */
+.navbarLink {
+  color: white;
+  text-decoration: none;
+  font-size: 1rem;
+  padding: 5px 10px;
+  transition: color 0.3s ease;
+}
+
+.navbarLink:hover {
+  color: #d1d1d1; /* Light gray on hover */
+}
+
+/* Button styles */
+.navbarButton {
+  padding: 8px 20px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+/* Signup button specific styles */
+.signup {
+  background-color: #3b82f6; /* Blue */
+  color: white;
+}
+
+.signup:hover {
+  background-color: #2563eb; /* Darker blue on hover */
+}
+
+/* Logout button specific styles */
+.logout {
+  background-color: #ef4444; /* Red */
+  color: white;
+}
+
+.logout:hover {
+  background-color: #dc2626; /* Darker red on hover */
+}

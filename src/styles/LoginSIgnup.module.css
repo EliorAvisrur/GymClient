@@ -1,0 +1,29 @@
+/* LoginPage styles */
+.loginPage {
+  display: flex;
+  min-width: 100vw;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f0f4f8;
+}
+
+/* Login container */
+.loginContainer {
+  background-color: white;
+  margin: 25px 0px;
+  padding: 1.5%;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 40%;
+  min-height: fit-content;
+}
+
+/* Heading styles */
+.heading {
+  text-align: center;
+  color: #333;
+  font-size: 2rem;
+  font-weight: 600;
+}
