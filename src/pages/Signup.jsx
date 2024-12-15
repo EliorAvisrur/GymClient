@@ -75,8 +75,8 @@ const Signup = () => {
   }
 
   return (
-    <div className={styles.loginPage}>
-      <div className={styles.loginContainer}>
+    <div className={styles.Page}>
+      <div className={styles.Container}>
         <h1 className={styles.heading}>Sign up</h1>
         <div className={formStyles.formContainer}>
           <h2>Register</h2>

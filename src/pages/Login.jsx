@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import formStyles from "../styles/formStyles.module.css";
+import styles from "../styles/LoginSIgnup.module.css";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { LOGIN_URL } from "../constants/endPoint";
-
+import { useUser } from "../contexts/UserProvider";
 const Login = () => {
+  const { login } = useUser();
   const navigate = useNavigate();
   const {
     register,
@@ -13,7 +15,7 @@ const Login = () => {
     reset,
   } = useForm();
 
-  const [loginData, setLoginData] = useState(null); // Store form data
+  const [loginData, setLoginData] = useState(null);
   const [req, setReq] = useState({
     data: null,
     loading: false,
@@ -21,7 +23,7 @@ const Login = () => {
   });
 
   const handleRequest = async (data) => {
-    setReq({ ...req, loading: true }); // Set loading state
+    setReq({ ...req, loading: true });
 
     try {
       const response = await fetch(LOGIN_URL, {
@@ -33,27 +35,26 @@ const Login = () => {
         body: JSON.stringify(data),
       });
 
-      const result = await response.json(); // Parse JSON response
+      const result = await response.json();
 
       if (response.ok) {
         // Handle success
         setReq({ ...req, loading: false, data: result });
         console.log("Login successful:", result);
-        navigate("/"); // Navigate to homepage after successful login
-        reset(); // Reset form fields after successful login
+        login();
+        navigate("/");
+        reset();
       } else {
         // Handle error response
         setReq({ ...req, loading: false, error: result });
         console.log("Login failed:", result);
       }
     } catch (error) {
-      // Catch network errors
       setReq({ ...req, loading: false, error: error });
       console.log("Error during login:", error);
     }
   };
 
-  // Show loading spinner if data is being fetched
   if (req.loading) {
     return (
       <div className="flex items-center justify-center h-screen">
@@ -62,63 +63,66 @@ const Login = () => {
     );
   }
 
-  // Error handling if the fetch fails
   console.log(req.error);
 
-  // if (req.error) {
-  //   return <p className={formStyles.errorMessage}>{req.error.message}</p>;
-  // }
-
   return (
-    <div className={formStyles.formContainer}>
-      <form onSubmit={handleSubmit(handleRequest)}>
-        <div>
-          <label htmlFor="email" className={formStyles.label}>
-            Email
-          </label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            {...register("email", {
-              required: "Email is required",
-              pattern: {
-                value: /^\S+@\S+\.\S+$/,
-                message: "Email is not valid",
-              },
-            })}
-            className={formStyles.input}
-          />
-          {errors.email && (
-            <p className={formStyles.errorMessage}>{errors.email.message}</p>
-          )}
-        </div>
+    <div className={styles.Page}>
+      <div className={styles.Container}>
+        <h1 className={styles.heading}>Login</h1>
+        <div className={formStyles.formContainer}>
+          <form onSubmit={handleSubmit(handleRequest)}>
+            <div>
+              <label htmlFor="email" className={formStyles.label}>
+                Email
+              </label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                {...register("email", {
+                  required: "Email is required",
+                  pattern: {
+                    value: /^\S+@\S+\.\S+$/,
+                    message: "Email is not valid",
+                  },
+                })}
+                className={formStyles.input}
+              />
+              {errors.email && (
+                <p className={formStyles.errorMessage}>
+                  {errors.email.message}
+                </p>
+              )}
+            </div>
 
-        <div>
-          <label htmlFor="password" className={formStyles.label}>
-            Password
-          </label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            {...register("password", { required: "Password is required" })}
-            className={formStyles.input}
-          />
-          {errors.password && (
-            <p className={formStyles.errorMessage}>{errors.password.message}</p>
-          )}
+            <div>
+              <label htmlFor="password" className={formStyles.label}>
+                Password
+              </label>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                {...register("password", { required: "Password is required" })}
+                className={formStyles.input}
+              />
+              {errors.password && (
+                <p className={formStyles.errorMessage}>
+                  {errors.password.message}
+                </p>
+              )}
+            </div>
+            <div>
+              <button type="submit" className={formStyles.button}>
+                {req.loading ? "Logging in..." : "Login"}
+              </button>
+            </div>
+            {req.error && (
+              <p className={formStyles.errorMessage}>{req.error.message}</p>
+            )}
+          </form>
         </div>
-
-        <div>
-          <button type="submit" className={formStyles.button}>
-            {req.loading ? "Logging in..." : "Login"}
-          </button>
-        </div>
-        {req.error && (
-          <p className={formStyles.errorMessage}>{req.error.message}</p>
-        )}
-      </form>
+      </div>
     </div>
   );
 };

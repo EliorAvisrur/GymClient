@@ -5,7 +5,7 @@
   background-color: #f9f9f9;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  max-width: 90%;
+  max-width: 300px;
   max-height: 40%;
 }
 
@@ -64,7 +64,7 @@
 @media screen and (max-width: 768px) {
   /* Adjust form container width */
   .formContainer {
-    max-width: 90%; /* Make the form take up most of the screen width on small screens */
+    max-width: 50%; /* Make the form take up most of the screen width on small screens */
     padding: 15px; /* Slightly reduce padding */
   }
 

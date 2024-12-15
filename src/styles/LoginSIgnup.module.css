@@ -1,5 +1,4 @@
-/* LoginPage styles */
-.loginPage {
+.Page {
   display: flex;
   min-width: 100vw;
   justify-content: center;
@@ -8,8 +7,7 @@
   background-color: #f0f4f8;
 }
 
-/* Login container */
-.loginContainer {
+.Container {
   background-color: white;
   margin: 25px 0px;
   padding: 1.5%;
@@ -19,8 +17,6 @@
   max-width: 40%;
   min-height: fit-content;
 }
-
-/* Heading styles */
 .heading {
   text-align: center;
   color: #333;

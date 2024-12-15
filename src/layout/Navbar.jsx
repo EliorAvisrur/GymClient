@@ -1,10 +1,11 @@
 import React from "react";
-import { Outlet, NavLink } from "react-router-dom";
+import { Outlet, NavLink, useNavigate } from "react-router-dom";
 import { useUser, UserProvider } from "../contexts/UserProvider";
 import styles from "../styles/navbarStyles.module.css";
 
 const Navbar = () => {
   const { user, logout } = useUser();
+  const navigate = useNavigate();
 
   return (
     <div>
@@ -27,7 +28,10 @@ const Navbar = () => {
 
                 {/* Log Out Button */}
                 <button
-                  onClick={logout}
+                  onClick={() => {
+                    logout();
+                    navigate("/");
+                  }}
                   className={`${styles.navbarButton} ${styles.logout}`}
                 >
                   Logout
