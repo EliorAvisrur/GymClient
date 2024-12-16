@@ -14,11 +14,11 @@ const Navbar = () => {
         <nav className={styles.navbar}>
           {/* Logo or Home Link */}
           <NavLink to="/" className={styles.navbarLogo}>
-            HOME
+            Logo
           </NavLink>
 
           {/* NavLinks based on User Authentication */}
-          <div className={styles.navbarLinks}>
+          <ul className={styles.navbarLinks}>
             {user ? (
               <>
                 {/* Data link for logged-in users */}
@@ -51,7 +51,7 @@ const Navbar = () => {
                 </NavLink>
               </>
             )}
-          </div>
+          </ul>
         </nav>
       </div>
 

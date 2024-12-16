@@ -64,7 +64,7 @@
 @media screen and (max-width: 768px) {
   /* Adjust form container width */
   .formContainer {
-    max-width: 50%; /* Make the form take up most of the screen width on small screens */
+    max-width: 70%; /* Make the form take up most of the screen width on small screens */
     padding: 15px; /* Slightly reduce padding */
   }
 

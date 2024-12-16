@@ -1,18 +1,19 @@
 /* Navbar container */
 .navbarContainer {
-  background-color: burlywood;
-  font-family: "Georgia", serif;
-  font-style: italic;
-  min-width: 100vw;
+  background-color: #333;
+  color: white;
+  margin: 0 auto;
+  font-family: Arial, sans-serif;
+  position: fixed;
+  width: 100%;
 }
-
 /* Main navbar styles */
 .navbar {
   display: flex;
+
   justify-content: space-between;
   align-items: center;
   padding: 15px 30px;
-  background-color: slategray;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   transition: padding 0.3s ease;
 }
@@ -20,6 +21,7 @@
 /* Logo/Home link */
 .navbarLogo {
   font-size: 1.25rem;
+  text-align: center;
   font-weight: bold;
   color: white;
   text-decoration: none;
@@ -32,13 +34,15 @@
 
 /* Links container */
 .navbarLinks {
+  list-style: none;
   display: flex;
   gap: 20px;
-  align-items: center;
 }
 
 /* Individual links */
 .navbarLink {
+  text-align: center;
+  margin-top: auto;
   color: white;
   text-decoration: none;
   font-size: 1rem;
@@ -53,6 +57,7 @@
 /* Button styles */
 .navbarButton {
   padding: 8px 20px;
+  text-decoration: none;
   font-size: 1rem;
   border: none;
   border-radius: 5px;
