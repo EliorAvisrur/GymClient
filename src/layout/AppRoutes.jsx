@@ -6,6 +6,7 @@ import Login from "../pages/Login";
 import Signup from "../pages/Signup";
 import Navbar from "./Navbar";
 import NotFound from "../pages/NotFound";
+import Success from "../pages/Success";
 
 const AppRoutes = () => {
   const { user } = useUser();
@@ -15,6 +16,7 @@ const AppRoutes = () => {
         <Route path="/" element={<Navbar />}>
           <Route path="*" element={<NotFound />} />
           <Route path="" element={<Home />} />
+          <Route path="/success" element={<Success />} />
           {user ? (
             <>{/* <Route path="DataPage" element={<DataPage />} /> */}</>
           ) : (

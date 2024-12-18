@@ -1,7 +1,69 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styles from "../styles/HomePage.module.css";
 import GymPic from "../../pictures/commercial-gym-equipment-list-dk-2048x941.jpg";
+import useFetch from "../hooks/useFetch";
+import { useUser } from "../contexts/UserProvider";
 const Home = () => {
+  const [showCourses, setShowCourses] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedCourseId, setSelectedCourseId] = useState("");
+
+  const { user } = useUser();
+
+  const {
+    data: packages,
+    loading,
+    error,
+    response,
+  } = useFetch("http://localhost:3000/packages");
+
+  const {
+    data: courses,
+    loading: courseLoading,
+    error: courseError,
+  } = useFetch("http://localhost:3000/courses/all");
+
+  useEffect(() => {
+    setShowCourses(courses.slice(0, 3));
+  }, [courses]);
+  const handlePurchase = async (packageId, packageName, selectedCourseId) => {
+    if (!user) {
+      alert("You must be logged in to purchase a package!");
+      return;
+    }
+
+    // עדכון קוד בהתאם לסוג החבילה
+    selectedCourseId =
+      packageName === "Single Class Package" ? selectedCourseId : null;
+
+    try {
+      const response = await fetch("http://localhost:3000/packages/purchase", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include", // ודא שכולל את זה אם תזדקק לקוקיס לאימות
+        body: JSON.stringify({
+          userId: user._id,
+          packageId: packageId,
+          selectedCourseId: selectedCourseId,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Failed to initiate payment process");
+      }
+
+      // פתיחת הקישור של פייפאל בחלון חדש
+      window.open(data.approvalUrl, "_blank");
+    } catch (error) {
+      console.error("Error purchasing package:", error);
+      alert("Error purchasing package: " + error.message);
+    }
+  };
+
   return (
     <div className={styles.wrapper}>
       {/* Image Section */}
@@ -12,44 +74,44 @@ const Home = () => {
       {/* Gym Packages Section */}
       <section id="packages" className={styles.packagesSection}>
         <h2>Our Gym Packages</h2>
-        <div className={styles.packages}>
-          <div className={styles.package}>
-            <h3>Basic Package</h3>
-            <p>Access to gym facilities and basic equipment.</p>
+        {loading ? (
+          <p>Loading...</p>
+        ) : error ? (
+          <p>Error loading packages!</p>
+        ) : (
+          <div className={styles.packages}>
+            {packages.map((pkg, i) => (
+              <div key={i} className={styles.package}>
+                <h3>{pkg.name}</h3>
+                <p>{pkg.description}</p>
+                <p>Price: {pkg.price}</p>
+                <button onClick={() => handlePurchase(pkg._id, pkg.name)}>
+                  Book Now
+                </button>{" "}
+                {/* הוספת הפונקציה כאן */}
+              </div>
+            ))}
           </div>
-          <div className={styles.package}>
-            <h3>Premium Package</h3>
-            <p>All access to premium equipment and exclusive classes.</p>
-          </div>
-          <div className={styles.package}>
-            <h3>VIP Package</h3>
-            <p>Personal training, spa access, and all premium services.</p>
-          </div>
-        </div>
+        )}
       </section>
 
       {/* Courses Section */}
       <section id="courses" className={styles.coursesSection}>
         <h2>Our Courses</h2>
-        <div className={styles.courses}>
-          <div className={styles.course}>
-            <h3>Pilates</h3>
-            <p>
-              Strengthen your core and improve flexibility with Pilates classes.
-            </p>
+        {courseLoading ? (
+          <p>Loading courses...</p>
+        ) : courseError ? (
+          <p>Error loading courses: {coursesError.message}</p>
+        ) : (
+          <div className={styles.courses}>
+            {showCourses.map((course) => (
+              <div key={course._id} className={styles.course}>
+                <h3>{course.name}</h3>
+                <p>{course.description}</p>
+              </div>
+            ))}
           </div>
-          <div className={styles.course}>
-            <h3>Spinning</h3>
-            <p>
-              Boost your cardiovascular fitness with our intense spinning
-              sessions.
-            </p>
-          </div>
-          <div className={styles.course}>
-            <h3>Yoga</h3>
-            <p>Relax your mind and body with our calming yoga sessions.</p>
-          </div>
-        </div>
+        )}
       </section>
 
       {/* Footer Section */}

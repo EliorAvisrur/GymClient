@@ -1,57 +1,28 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { GET_USERINFO_URL, LOGOUT_URL } from "../constants/endPoint";
 import { useNavigate } from "react-router-dom";
+import { fetchData } from "../utils/fetchData";
 // Create the UserContext
 const UserContext = createContext();
 
 // Create the UserProvider component
 const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-
-  useEffect(() => {
-    // Example: Check if a user is logged in, you could fetch user data from an API or local storage
-    const savedUser = localStorage.getItem("user");
-    if (savedUser) {
-      setUser(JSON.parse(savedUser));
-    }
-  }, []);
   // Function to logout the user
   const logoutUser = async () => {
-    try {
-      const response = await fetch(LOGOUT_URL, {
-        method: "POST",
-        credentials: "include",
-      });
-      const result = await response.json();
-      // Parse JSON response
-      if (response.ok) {
-        //navigate("/");
-        setUser(null); // Navigate to homepage after successful login
-      } else {
-        console.log("Logout failed:", result);
-      }
-    } catch (error) {
-      // Catch network errors
-      console.log("Error during logout:", error);
+    const { data: result, error } = await fetchData(LOGOUT_URL, "POST");
+    if (result) {
+      setUser(null);
+    } else {
+      console.log("Logout failed:", error);
     }
   };
   const loginUser = async () => {
-    try {
-      const response = await fetch(GET_USERINFO_URL, {
-        method: "GET",
-        credentials: "include",
-      });
-      const result = await response.json();
-      // Parse JSON response
-      if (response.ok) {
-        //navigate("/");
-        setUser(result); // Navigate to homepage after successful login
-      } else {
-        console.log("Login failed:", result);
-      }
-    } catch (error) {
-      // Catch network errors
-      console.log("Error during login:", error);
+    const { data: result, error } = await fetchData(GET_USERINFO_URL, "GET");
+    if (result) {
+      setUser(result);
+    } else {
+      console.log("Login failed:", result);
     }
   };
   useEffect(() => {
